@@ -32,3 +32,4 @@ def list_users_service():
     for user in users:
         user["_id"] = str(user["_id"])
     return users
+

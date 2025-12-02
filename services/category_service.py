@@ -8,7 +8,7 @@ category_collection = db.categories
 # Rule #6: Category names must be unique
 # Rule #7: if a category is deleted, reassign expenses
 
-def add_category_to_budget(user_id: str, category_name: str, ):
+def add_category_to_budget(user_id: str, category_name: str ):
 
     budget = db.budgets.find_one({"user_id": user_id})
 
@@ -28,7 +28,7 @@ def add_category_to_budget(user_id: str, category_name: str, ):
     )
     return {"message": f"Category '{category_name}' added successfully"}
 
-def rename_category(user_id, old_category_name, new_category_name):
+def rename_category(user_id: str, old_category_name: str, new_category_name: str):
     # Rule 5
     budget = db.budgets.find_one({"user_id": user_id})
     if not budget or old_category_name not in budget["categories"]:

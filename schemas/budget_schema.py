@@ -12,7 +12,6 @@ class Budget(BaseModel):
     categories: List[Category]
     created_on: datetime
 
-
     model_config = {
         "populate_by_name": True,
         "extra": "forbid"

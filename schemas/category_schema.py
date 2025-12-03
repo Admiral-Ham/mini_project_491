@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, ValidationError
 
 
 class Category(BaseModel):
-    id: Optional[str] = Field(default=None, alias="_id")
+    #id: Optional[str] = Field(default=None, alias="_id")
     user_id: str 
     name: str
     type: str = Field(default="Need")

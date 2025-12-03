@@ -3,6 +3,7 @@ from config.db import db
 from schemas.budget_schema import Budget
 from bson import ObjectId
 from schemas.objectID_helper import str_to_object_id
+from services.category_service import create_category
 
 default_categories = ["Needs", "Saves", "Wants"] #business logic
 
@@ -18,6 +19,8 @@ def create_budget(user_id: str, total_amount: float, name : str):
         "categories": [],
         "created_on": datetime.utcnow(),
     }
+    for category_name in default_categories:
+        budget_document["categories"] = create_category(user_id, category_name, "Placeholder")
     valid_budget_doc = Budget.model_validate(budget_document)
     mongo_budget_doc = valid_budget_doc.model_dump(by_alias=True, exclude_none=True)
     mongo_budget_doc["user_id"] = str_to_object_id(valid_budget_doc["user_id"])
@@ -35,8 +38,8 @@ def get_budget_by_user_id(user_id: str) -> dict:
     :return: Description
     :rtype: dict
     """
-    user_id_oID = str_to_object_id(user_id)
-    return db.budget.find_one(user_id_oID)
+    user_id_oid = str_to_object_id(user_id)
+    return db.budget.find_one(user_id_oid)
 
 def get_budget_by_id(budget_id: ObjectId) -> dict:
     """
@@ -48,3 +51,4 @@ def get_budget_by_id(budget_id: ObjectId) -> dict:
     :rtype: dict
     """
     return  db.budget.find_one(budget_id)
+

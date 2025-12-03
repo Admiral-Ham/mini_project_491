@@ -2,6 +2,7 @@ from config.db import db
 from schemas.category_schema import Category as cat
 from pydantic import ValidationError
 from services.budget_service import get_budget_by_user_id
+
 category_collection = db.categories
 #Enforces rule number 5, 6, and 7
 # Rule #5: category names can be edited
@@ -57,7 +58,7 @@ def delete_category(user_id, category_name, reassign_to):
     )
     return {"message": f"Category '{category_name}' deleted successfully and reassigned to '{reassign_to}'"}
 
-def create_category(user_id: str, category_name: str, type: str):
+def create_category(user_id, category_name: str, type: str):
     category_doc = {
         "user_id": user_id,
         "name": category_name,
@@ -66,7 +67,7 @@ def create_category(user_id: str, category_name: str, type: str):
     results = validate_category(category_doc)
     if not results.get("success"):
         return results.get("message")
-    return category_collection.insert_one(results)
+    return results.get("return")
     
 
 def validate_category(category_data: dict):

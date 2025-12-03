@@ -1,7 +1,7 @@
 from config.db import db
 from schemas.category_schema import Category as cat
 from pydantic import ValidationError
-
+from services.budget_service import get_budget_by_user_id
 category_collection = db.categories
 #Enforces rule number 5, 6, and 7
 # Rule #5: category names can be edited
@@ -79,5 +79,15 @@ def validate_category(category_data: dict):
         #print(e)
         return {"success": False,"message":"Missing required fields", "return": category_doc}
 
-def unique_name():
-    pass
+def unique_name(user_id: str, category_name: str) -> bool:
+    """
+    Checks if a category name already exists.
+    """
+    budget = get_budget_by_user_id(user_id)
+    categories_names = []
+    for category in budget["categories"]:
+        categories_names.append(category["name"])
+    if category_name in categories_names:
+        return False
+    else:
+        return True

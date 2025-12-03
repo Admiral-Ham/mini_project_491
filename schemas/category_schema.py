@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field, ValidationError
-from datetime import date
+#from datetime import date
 
 
 class Category(BaseModel):
